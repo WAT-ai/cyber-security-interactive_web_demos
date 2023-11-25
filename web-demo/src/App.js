@@ -1,24 +1,55 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import * as tf from '@tensorflow/tfjs';
+import Navbar from './Navbar';
+import Header from './Header';
+
+import Introduction from './Introduction';
+import KMeans from './KMeans';
+import DBScan from './DBScan';
+import NegativeSelection from './NegativeSelection';
+import Conclusion from './Conclusion';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
+
 
 function App() {
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Router>
+      <div className="App">      
+        
+        <div className="content">
+              <Introduction />
+        </div>   
+       
+      <div className="model">
+        <KMeans />
+      </div>  
+
+            
+        
+       
+      <div className="model">
+        <DBScan />
+      </div>  
+
+      <div className="model">
+        <NegativeSelection />
+      </div>  
+
+      
+
+      <div className="section">
+        <Conclusion />
+      </div>  
+      
+
     </div>
+    </Router>
+    
+    
   );
 }
 
