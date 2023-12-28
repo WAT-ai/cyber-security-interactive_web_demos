@@ -10,13 +10,17 @@ import DBScan from './DBScan';
 import NegativeSelection from './NegativeSelection';
 import Conclusion from './Conclusion';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
+import KmeansPP from './KmeansPP';
+import Normalizer from './normalizer';
+import N from './N';
 
 
 function App() {
 
   
   return (
+
+    
     <Router>
       <div className="App">      
         
@@ -26,19 +30,11 @@ function App() {
        
       <div className="model">
         <KMeans />
-      </div>  
+      </div>
 
             
         
-       
-      <div className="model">
-        <DBScan />
-      </div>  
-
-      <div className="model">
-        <NegativeSelection />
-      </div>  
-
+   
       
 
       <div className="section">
@@ -49,7 +45,15 @@ function App() {
     </div>
     </Router>
     
-    
+       /*  PUT THIS BETWEEN MODEL AND SECTION
+      <div className="model">
+        <DBScan />
+      </div>  
+
+      <div className="model">
+        <NegativeSelection />
+      </div>  
+      */
   );
 }
 
