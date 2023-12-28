@@ -10,9 +10,7 @@ import DBScan from './DBScan';
 import NegativeSelection from './NegativeSelection';
 import Conclusion from './Conclusion';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import KmeansPP from './KmeansPP';
-import Normalizer from './normalizer';
-import N from './N';
+
 
 
 function App() {
