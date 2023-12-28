@@ -24,7 +24,7 @@ const Introduction = () => {
 
 
             <div className="next-button">
-                <Link to='kmeans' smooth={true} duration={500} className="next-button-link">TO OUR MODELS </Link>
+                <Link to='kmeans' smooth={true} duration={500} className="next-button-link">TO OUR MODEL </Link>
             </div>
             
             
