@@ -3,10 +3,10 @@ function genRandLike(shape) {
     return tf.randomNormal(shape, 0, 1, 'float32');
 }
 
-// Function to compute pairwise affinity between data and centroids
+// Compute Euclidean distance between data and centroids
 function affinity(data, centroids) {
-    const distances = tf.sub(data, centroids);
-    return tf.norm(distances).square();
+    const distances = tf.sub(data, centroids).square();
+    return tf.sum(distances, distances.shape.length - 1).sqrt();
 }
 
 // Main Function to perform K-Means clustering in TensorFlow.js
@@ -15,7 +15,7 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
 
     // Fresh start (reset all centroids) on each iteration
     for (let iter = 0; iter < numIters; iter++) {
-        console.log(iter);
+        console.log("Iteration number: ", iter+1);
 
         // Init random, prior, and best centroids
         if (centr === null) {
@@ -24,9 +24,9 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
         const [nCentr, nDims] = centr.shape;
         const nEx = data.shape[0];
 
-        // Always perform at least one iteration
+        // Always perform at least one update on centroid values
+        let numUpdates = 0;
         while (true) {
-            console.log('.');
             const prior = centr.clone();
 
             // Find centroids which are close to and not close to data
@@ -39,11 +39,9 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
             const hasData = Array.from(new Set(groups));                              // from above, filter to centroids with datapoints
             const hasNoData = allIndices.filter((index) => !hasData.includes(index)); // from above filter to centroids w/o datapoints
 
-            // Replace the current centroid values with randomly initialised
+            // Replace the current centroid values with random ones
             for (let i of hasNoData) {
                 const randTensor = genRandLike([1, nDims]);
-                const slicedTensor = centr.slice([i, 0], [1, nDims]);
-
                 centr = tf.concat([
                     centr.slice([0, 0], [i, nDims]),       // data before centr to replace
                     randTensor,                            // new data for centr to replace
@@ -57,7 +55,6 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
 
             // this goes through the ith centroid
             for(let i of hasData){
-
                 // finds which datapoints are grouped into the ith centroid
                 const comparison = tf.fill(groupsOG.shape, i);
                 const cond = tf.equal(groupsOG, comparison); 
@@ -79,8 +76,12 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
             }   
 
             // If centroids not changing, stop
-            if (affinity(prior, centr) < eps) {
-                break;
+            const change = affinity(prior, centr).sum();
+            numUpdates += 1;
+            if (change < eps || numUpdates > 10) break;
+            else {
+                console.log("Change in centroid values: ");
+                change.print();
             }
         }
 
@@ -116,19 +117,11 @@ async function loadCSVData() {
     return benignData;
 }
 
-//Test
-// const benignData = tf.tensor2d([[]]);
-// const numCentroids = 5;
-// const numIters = 1;
-// const eps = 1.0;
-// const bestCentroids = await kMeans(benignData, numCentroids, numIters, eps);
-// console.log(bestCentroids);
-
 loadCSVData().then((benignData) => {
     // Now you can use benignData in your K-Means or other computations
-    const numCentroids = 5;
+    const numCentroids = 25;
     const numIters = 1;
-    const eps = 1.0;
+    const eps = 100.0;
 
     kMeans(benignData, numCentroids, numIters, eps).then((bestCentroids) => {
         console.log(bestCentroids.shape);
