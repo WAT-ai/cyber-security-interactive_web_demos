@@ -1,3 +1,10 @@
+/* 
+@file               kmeans-naive.js
+@brief              K-means clustering with random centroid initialisation
+@author             Aarush Ghosh, 
+*/
+
+
 //function to generate random values like NumPy's randn
 function genRandLike(shape) {
     return tf.randomNormal(shape, 0, 1, 'float32');
@@ -33,6 +40,11 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
             const distances = affinity(tf.expandDims(data, 1), centr);                // num_examples x num_centroids
             const groupsOG = distances.argMin(1);
             const groups = groupsOG.dataSync();                                       // num_examples
+
+            // save best centroids
+            if (best === null || best[0] > distances.sum()) {
+                best = [distances.sum(), centr.clone()];
+            }
             
             // figure out which centroids have data grouped under them
             const allIndices = Array.from({ length: nCentr }, (_, i) => i);   // [0, 1, 2, ... num_centroids]
@@ -78,28 +90,20 @@ async function kMeans(data, numCentroids, numIters, eps = 0.1, centr = null) {
             // If centroids not changing, stop
             const change = affinity(prior, centr).sum();
             numUpdates += 1;
-            if (change < eps || numUpdates > 10) break;
+            if (change < eps || numUpdates > 5) break;
             else {
                 console.log("Change in centroid values: ");
                 change.print();
             }
         }
-
-        // Find the total distance for all datapoints to their centroids as a correlate of accuracy
-        const dist = tf.sum(tf.min(affinity(tf.expandDims(data, 1), centr), 1)).dataSync()[0];
-
-        if (best === null || best[0] > dist) {
-            best = [dist, centr.clone()];
-        }
     }
 
     // Return best accuracy centroids
-    return best[-1];
+    return best[1];
 }
 
 // Function to load and preprocess the CSV data
-async function loadCSVData() {
-    // Replace "your/local/path/your_data.csv" with the path to your local CSV file
+async function loadCSVData(normalized = false) {
     const csvUrl = "0.001percent_2classes.csv";
 
     // Fetch the CSV file
@@ -112,19 +116,27 @@ async function loadCSVData() {
     // Extract features and convert to Tensor
     const features = ["duration", "srate", /* ... */];
     const xData = csvData.map((row) => features.map((feature) => row[feature]));
-    const benignData = tf.tensor2d(xData);
+    
+    // Only keep max 1K rows (algorithm already slow)
+    let benignData = tf.tensor2d(xData).slice([0,0], [1000,2]);
+
+    // normalization (optional)
+    if (normalized) {
+        const {mean, variance} = tf.moments(benignData, 0);
+        benignData = tf.sub(benignData, mean).div(tf.sqrt(variance));
+    }
 
     return benignData;
 }
 
-loadCSVData().then((benignData) => {
+loadCSVData(true).then((benignData) => {
     // Now you can use benignData in your K-Means or other computations
-    const numCentroids = 25;
+    const numCentroids = 10;
     const numIters = 1;
-    const eps = 100.0;
+    const eps = 6.0;
 
     kMeans(benignData, numCentroids, numIters, eps).then((bestCentroids) => {
-        console.log(bestCentroids.shape);
+        bestCentroids.print();
     });
 });
 
