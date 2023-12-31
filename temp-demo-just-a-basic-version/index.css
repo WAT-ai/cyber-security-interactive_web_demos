@@ -1,0 +1,42 @@
+/* Basic colours and stuff */
+:root {
+    --bg-color: #111111;
+    --header-color: #ffce1a;
+    --body-text-color: #ffffff;
+    --header-font: "Roboto Mono", monospace;
+    --body-font: "SF Pro Display", -apple-system, BlinkMacSystemFont, Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+body {
+    background-color: var(--bg-color);
+    font-size: 17.5px;
+    line-height: 1.6;
+}
+
+h1 {
+    color: var(--header-color);
+    font-family: var(--header-font);
+}
+
+h2, h3, h4 {
+    color: var(--body-text-color);
+    font-family: var(--header-font);
+}
+
+a, .accent, .accent>span {
+    color: var(--header-color);
+}
+
+p, li, span {
+    color: var(--body-text-color);
+    font-family: var(--body-font);
+}
+
+.subtitle {
+    color: var(--body-text-color);
+}
+
+/* Positioning */
+.container {
+    margin: 8rem 25vw;
+}

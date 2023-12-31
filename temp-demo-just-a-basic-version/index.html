@@ -1,97 +1,104 @@
 <html>
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <link rel="stylesheet" href="./index.css">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-    <p><span>Introduction to the Model (in the context of the problem)</span></p>
+  <div class="container">
+    <h1>A Journey of Challenges: K-means and Negative Selection</h1>
+    <h3 class="subtitle">
+      Using Tensorflow.js and Charts.js to interactively show how we made an
+      anomaly detection algorithm.
+    </h3>
+    <hr />
     <p><span></span></p>
     <p><span>Our team has been trying to detect hackers&rsquo; network activity on smart devices.
-            This is difficult because smart devices like Amazon Alexas or security cameras are usually powered by small
-            microcontrollers. Thus, it&rsquo;s impossible to run intensive software on them. </span></p>
+        This is difficult because smart devices like Amazon Alexas or security cameras are usually powered by small
+        microcontrollers. Thus, it&rsquo;s impossible to run intensive software on them. </span></p>
     <p><span></span></p>
     <p><span>Even worse, we&rsquo;ve been working with the Canadian Institute of
-            Cybersecurity&rsquo;s IoT 2023 dataset, which has over 14 GB of data! Clearly, we can&rsquo;t store (yet
-            alone train algorithms on) all this data on a small smart device. Thus, we have some tricky design
-            requirements in creating ways to detect hackers:</span></p>
+        Cybersecurity&rsquo;s IoT 2023 dataset, which has over 14 GB of data! Clearly, we can&rsquo;t store (yet
+        alone train algorithms on) all this data on a small smart device. Thus, we have some tricky design
+        requirements in creating ways to detect hackers:</span></p>
     <ol start="1">
-        <li><span>We had to very carefully find the best statistics about
-                hackers&rsquo; network requests and use only that minimal information. Ex: We want to know if the hacker
-                has a web request, but not down to nitty gritty details like whether HTTP or HTTPS protocols are used.
-            </span></li>
-        <li><span>We needed an algorithm that we could train on a massive dataset
-                in the cloud. The aim is to store the algorithm on a microcontroller without taking up much space. This
-                is like the &lsquo;knowledge&rsquo; from the gigabytes of data is &lsquo;distilled&rsquo; into a much
-                smaller format.</span></li>
+      <li><span>We had to very carefully find the best statistics about
+          hackers&rsquo; network requests and use only that minimal information. Ex: We want to know if the hacker
+          has a web request, but not down to nitty gritty details like whether HTTP or HTTPS protocols are used.
+        </span></li>
+      <li><span>We needed an algorithm that we could train on a massive dataset
+          in the cloud. The aim is to store the algorithm on a microcontroller without taking up much space. This
+          is like the &lsquo;knowledge&rsquo; from the gigabytes of data is &lsquo;distilled&rsquo; into a much
+          smaller format.</span></li>
     </ol>
     <p><span></span></p>
     <p><span>Given this context, there are a few unsupervised learning AI algorithms that can meet
-            our needs. This is where the negative selection and K-means algorithms come in. </span></p>
+        our needs. This is where the negative selection and K-means algorithms come in. </span></p>
     <p><span></span></p>
-    <p><span>Negative Selection:</span></p>
+    <h2>Explaining the Negative Selection Algorithm</h2>
     <p><span></span></p>
     <p><span>This is the general approach that our group followed, with various side algorithms to
-            help. Negative selection involves trying to detect patterns about what normal network requests look like. If
-            a new network request comes in that&rsquo;s too different from detected patterns, we know it&rsquo;s
-            abnormal (from a hacker). </span></p>
+        help. Negative selection involves trying to detect patterns about what normal network requests look like. If
+        a new network request comes in that&rsquo;s too different from detected patterns, we know it&rsquo;s
+        abnormal (from a hacker). </span></p>
     <p><span></span></p>
-    <p><span>[INSERT DIAGRAM OF NEGATIVE SELECTION ALGORITHM]</span></p>
+    <p class="accent"><span>[INSERT DIAGRAM OF NEGATIVE SELECTION ALGORITHM]</span></p>
     <p><span></span></p>
     <p><span>This sounds good in theory, but the hard part is generating those
-            &lsquo;patterns.&rsquo; The naive approach that the negative selection algorithm tries is to simply generate
-            random numbers until those random numbers resemble statistics about normal network requests in our dataset.
-            This takes a long time. So we used a more efficient alternative: K-means selection.</span></p>
+        &lsquo;patterns.&rsquo; The naive approach that the negative selection algorithm tries is to simply generate
+        random numbers until those random numbers resemble statistics about normal network requests in our dataset.
+        This takes a long time. So we used a more efficient alternative: K-means selection.</span></p>
     <p><span></span></p>
-    <p><span>K-Means Clustering</span><span>:</span></p>
+    <h2>Using K-means to Find Centroids</h2>
     <p><span></span></p>
     <p><span>K-means is a clustering algorithm which groups datapoints into clusters. In this
-            case, we are clustering benign data (normal network requests) into K groups. The centre of each cluster
-            (each &lsquo;centroid&rsquo;) will be a &lsquo;pattern&rsquo; of normal network requests for the negative
-            selection algorithm.</span></p>
+        case, we are clustering benign data (normal network requests) into K groups. The centre of each cluster
+        (each &lsquo;centroid&rsquo;) will be a &lsquo;pattern&rsquo; of normal network requests for the negative
+        selection algorithm.</span></p>
     <p><span></span></p>
     <p><span>To start, we create centroids with random values. Based on this random assignment,
-            each data point will be grouped into a cluster based on which centroid each data point is closest to. We
-            measure &lsquo;closeness&rsquo; (AKA affinity) with the </span><span><a
-                href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Euclidean_distance&amp;sa=D&amp;source=editors&amp;ust=1704050539563110&amp;usg=AOvVaw2RRp6XwgQTMENoYjnzqcQR">Euclidean
-                distance</a></span><span>.</span></p>
+        each data point will be grouped into a cluster based on which centroid each data point is closest to. We
+        measure &lsquo;closeness&rsquo; (AKA affinity) with the </span><span><a
+          href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Euclidean_distance&amp;sa=D&amp;source=editors&amp;ust=1704050539563110&amp;usg=AOvVaw2RRp6XwgQTMENoYjnzqcQR">Euclidean
+          distance</a></span><span>.</span></p>
     <p><span></span></p>
-    <p><span>[INSERT SCATTER PLOT OF INITIAL CENTROIDS AND DATAPOINTS]</span></p>
+    <p class="accent"><span>[INSERT SCATTER PLOT OF INITIAL CENTROIDS AND DATAPOINTS]</span></p>
     <p><span></span></p>
     <p><span>After this initial start, we loop two main steps. </span></p>
     <ol start="1">
-        <li><span>Centroids have their values randomly reset if they are &lsquo;not
-                close to any data&rsquo; (no datapoints were grouped into that centroid). &nbsp;</span></li>
-        <li><span>What about centroids that did have datapoints grouped under them?
-                We set these centroids&rsquo; values to be the average of the datapoints grouped under them. Ie. These
-                centroids become more like the data they represent.</span></li>
+      <li><span>Centroids have their values randomly reset if they are &lsquo;not
+          close to any data&rsquo; (no datapoints were grouped into that centroid). &nbsp;</span></li>
+      <li><span>What about centroids that did have datapoints grouped under them?
+          We set these centroids&rsquo; values to be the average of the datapoints grouped under them. Ie. These
+          centroids become more like the data they represent.</span></li>
     </ol>
     <p><span></span></p>
-    <p><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
+    <p class="accent"><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
     <p><span></span></p>
     <p><span>Usually, the algorithm stops looping when the centroid values are no longer changing
-            much. As seen above though, the centroid values are very volatile. This is because the data isn&rsquo;t
-            &lsquo;normalized&rsquo;.</span></p>
+        much. As seen above though, the centroid values are very volatile. This is because the data isn&rsquo;t
+        &lsquo;normalized&rsquo;.</span></p>
     <p><span></span></p>
-    <p><span>Normalization:</span></p>
+    <h2>Normalizing the Data to Improve Convergence</h2>
     <p><span>&lsquo;Normalized&rsquo; data is data where all values have a mean of 0 and a
-            standard deviation of one. This makes all values very similar, which helps with computing the averages and
-            distances described in the k-means algorithm. </span></p>
+        standard deviation of one. This makes all values very similar, which helps with computing the averages and
+        distances described in the k-means algorithm. </span></p>
     <p><span></span></p>
     <p><span>Our original dataset is far from normalized. For example, it includes a network
-            request duration statistic, often in thousands of milliseconds. However, it also includes a 0/1 value to
-            indicate if the network request used the TCP protocol. Clearly, the network request duration statistic will
-            dominate any averages/distances calculated. </span></p>
+        request duration statistic, often in thousands of milliseconds. However, it also includes a 0/1 value to
+        indicate if the network request used the TCP protocol. Clearly, the network request duration statistic will
+        dominate any averages/distances calculated. </span></p>
     <p><span></span></p>
     <p><span>To convert the original data into normalized data, we use a formula from Statistics
-            101: </span><span><a
-                href="https://www.google.com/url?q=https://visualstudiomagazine.com/articles/2020/08/04/ml-data-prep-normalization.aspx?m%3D1&amp;sa=D&amp;source=editors&amp;ust=1704050539564463&amp;usg=AOvVaw2dIOX0FWzVuATF0fH-fb78">Z-score
-                normalisation</a></span><span>.</span></p>
+        101: </span><span><a
+          href="https://www.google.com/url?q=https://visualstudiomagazine.com/articles/2020/08/04/ml-data-prep-normalization.aspx?m%3D1&amp;sa=D&amp;source=editors&amp;ust=1704050539564463&amp;usg=AOvVaw2dIOX0FWzVuATF0fH-fb78">Z-score
+          normalisation</a></span><span>.</span></p>
     <p><span></span></p>
     <p><span>Here, we see the updated results of the k-means clustering algorithm: </span></p>
     <p><span></span></p>
-    <p><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
+    <p class="accent"><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
+  </div>
 </body>
 
 </html>
