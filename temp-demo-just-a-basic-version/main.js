@@ -44,7 +44,7 @@ loadCSVData(false).then(([tensorData, arrayData]) => {
 
     kMeans(tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
         createScatterPlot("init-regular-data-scatter", arrayData, 
-                          bestCentroids.arraySync());
+                          bestCentroids.arraySync(), "K-Means Clustering with PCA (Single Iteration)");
     });
 });
 
@@ -62,7 +62,7 @@ function runkmeans(){
     kMeans(load_tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
         document.getElementById('txt-train').style.display = 'none'
         createScatterPlot("rawkmeans-regular-data-scatter", load_arrayData, 
-                          bestCentroids.arraySync());
+                          bestCentroids.arraySync(), "K-Means Clustering with PCA (10 Iterations)");
     });
 }
 
@@ -81,7 +81,7 @@ function runkmeans_normalized(){
         kMeans(tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
             document.getElementById('txt-train_norm').style.display = 'none'
             createScatterPlot("normkmeans-regular-data-scatter", arrayData, 
-                              bestCentroids.arraySync());
+                              bestCentroids.arraySync(), "K-Means Clustering with PCA - Normalized (10 Iterations)");
         });
     });
 }
