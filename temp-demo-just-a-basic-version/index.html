@@ -81,9 +81,15 @@
           We set these centroids&rsquo; values to be the average of the datapoints grouped under them. Ie. These
           centroids become more like the data they represent.</span></li>
     </ol>
+
+    <button onclick="runkmeans()" id="btn-rawkmeans">Run K Means</button>
     <p><span></span></p>
-    <p class="accent"><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
+      <p class="accent" style="display: none;" id="txt-train"><span>Training...</span></p>
     <p><span></span></p>
+    <div class="rawkmeans-regular-data-scatter">
+      <canvas id="rawkmeans-regular-data-scatter"></canvas>
+    </div>
+
     <p><span>Usually, the algorithm stops looping when the centroid values are no longer changing
         much. As seen above though, the centroid values are very volatile. This is because the data isn&rsquo;t
         &lsquo;normalized&rsquo;.</span></p>

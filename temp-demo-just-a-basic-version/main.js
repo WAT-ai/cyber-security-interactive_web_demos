@@ -1,3 +1,8 @@
+
+// Global Vars
+let load_tensorData;
+let load_arrayData;
+
 // Function to load and preprocess the CSV data
 async function loadCSVData(normalized = false) {
     const csvUrl = "0.001percent_2classes.csv";
@@ -33,8 +38,30 @@ loadCSVData(true).then(([tensorData, arrayData]) => {
     const numIters = 1;
     const eps = 6.0;
 
+    // save loaded values to global vars
+    load_tensorData = tensorData;
+    load_arrayData = arrayData;
+
     kMeans(tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
         createScatterPlot("init-regular-data-scatter", arrayData, 
                           bestCentroids.arraySync());
     });
 });
+
+
+function runkmeans(){
+    const numCentroids = 10;
+    const numIters = 20;
+    const eps = 6.0;
+
+    document.getElementById('btn-rawkmeans').style.display = 'none';
+    document.getElementById('txt-train').style.display = 'block'
+
+
+
+    kMeans(load_tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
+        document.getElementById('txt-train').style.display = 'none'
+        createScatterPlot("rawkmeans-regular-data-scatter", load_arrayData, 
+                          bestCentroids.arraySync());
+    });
+}
