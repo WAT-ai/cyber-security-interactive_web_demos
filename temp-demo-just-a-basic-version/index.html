@@ -82,6 +82,7 @@
           centroids become more like the data they represent.</span></li>
     </ol>
 
+      <!-- Raw K Means Plot -->
     <button onclick="runkmeans()" id="btn-rawkmeans">Run K Means</button>
     <p><span></span></p>
       <p class="accent" style="display: none;" id="txt-train"><span>Training...</span></p>
@@ -111,7 +112,16 @@
     <p><span></span></p>
     <p><span>Here, we see the updated results of the k-means clustering algorithm: </span></p>
     <p><span></span></p>
-    <p class="accent"><span>[INSERT START BUTTON AND RUN ALGORITHM TO UPDATE THE SCATTERPLOT]</span></p>
+
+    <!-- Normalized K means plot -->
+    <button onclick="runkmeans_normalized()" id="btn-normkmeans">Run Normalized K-Means</button>
+    <p><span></span></p>
+      <p class="accent" style="display: none;" id="txt-train_norm"><span>Training...</span></p>
+    <p><span></span></p>
+    <div class="normkmeans-regular-data-scatter">
+      <canvas id="normkmeans-regular-data-scatter"></canvas>
+    </div>
+
   </div>
 </body>
 

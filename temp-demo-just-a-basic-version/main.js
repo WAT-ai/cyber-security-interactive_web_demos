@@ -33,7 +33,7 @@ async function loadCSVData(normalized = false) {
 
 
 
-loadCSVData(true).then(([tensorData, arrayData]) => { 
+loadCSVData(false).then(([tensorData, arrayData]) => { 
     const numCentroids = 10;
     const numIters = 1;
     const eps = 6.0;
@@ -63,5 +63,25 @@ function runkmeans(){
         document.getElementById('txt-train').style.display = 'none'
         createScatterPlot("rawkmeans-regular-data-scatter", load_arrayData, 
                           bestCentroids.arraySync());
+    });
+}
+
+
+function runkmeans_normalized(){
+    document.getElementById('btn-normkmeans').style.display = 'none';
+    document.getElementById('txt-train_norm').style.display = 'block'
+
+
+
+    loadCSVData(true).then(([tensorData, arrayData]) => { 
+        const numCentroids = 10;
+        const numIters = 10;
+        const eps = 6.0;
+    
+        kMeans(tensorData, numCentroids, numIters, eps).then((bestCentroids) => {
+            document.getElementById('txt-train_norm').style.display = 'none'
+            createScatterPlot("normkmeans-regular-data-scatter", arrayData, 
+                              bestCentroids.arraySync());
+        });
     });
 }
