@@ -1,4 +1,4 @@
-function createScatterPlot(id, raw_datapoints, centroid_values) {
+function createScatterPlot(id, raw_datapoints, centroid_values, title) {
     // Get the canvas context
     var ctx = document.getElementById(id).getContext('2d');
 
@@ -73,7 +73,7 @@ function createScatterPlot(id, raw_datapoints, centroid_values) {
                 },
                 title: {
                     display: true,
-                    text: 'K-Means Clustering with PCA',
+                    text: title,
                     color: 'yellow', 
                         font: {
                             weight: 'bold',
