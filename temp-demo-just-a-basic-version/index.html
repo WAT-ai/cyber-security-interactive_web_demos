@@ -1,13 +1,19 @@
-<html> 
+<html>
 
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+
+
+  <!--Bootstrap Library-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="./index.css">
-  
+
   <!-- External libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.14.0"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 
 </head>
 
@@ -24,10 +30,13 @@
         This is difficult because smart devices like Amazon Alexas or security cameras are usually powered by small
         microcontrollers. Thus, it&rsquo;s impossible to run intensive software on them. </span></p>
     <p><span></span></p>
-    <p><span>Even worse, we&rsquo;ve been working with the Canadian Institute of
-        Cybersecurity&rsquo;s IoT 2023 dataset, which has over 14 GB of data! Clearly, we can&rsquo;t store (yet
-        alone train algorithms on) all this data on a small smart device. Thus, we have some tricky design
-        requirements in creating ways to detect hackers:</span></p>
+    <p><span>Even worse, we&rsquo;ve been working with the
+
+        <span><a href="https://www.kaggle.com/datasets/madhavmalhotra/unb-cic-iot-dataset/data"><b>
+              Canadian Institute of Cybersecurity&rsquo;s IoT 2023 dataset</b></a></span><span>, which has over 14 GB of
+          data! Clearly, we can&rsquo;t store (yet
+          alone train algorithms on) all this data on a small smart device. Thus, we have some tricky design
+          requirements in creating ways to detect hackers:</span></p>
     <ol start="1">
       <li><span>We had to very carefully find the best statistics about
           hackers&rsquo; network requests and use only that minimal information. Ex: We want to know if the hacker
@@ -42,7 +51,7 @@
     <p><span>Given this context, there are a few unsupervised learning AI algorithms that can meet
         our needs. This is where the negative selection and K-means algorithms come in. </span></p>
     <p><span></span></p>
-    <h2>Explaining the Negative Selection Algorithm</h2>
+    <h2><b>Explaining the Negative Selection Algorithm</b></h2>
     <p><span></span></p>
     <p><span>This is the general approach that our group followed, with various side algorithms to
         help. Negative selection involves trying to detect patterns about what normal network requests look like. If
@@ -56,7 +65,7 @@
         random numbers until those random numbers resemble statistics about normal network requests in our dataset.
         This takes a long time. So we used a more efficient alternative: K-means selection.</span></p>
     <p><span></span></p>
-    <h2>Using K-means to Find Centroids</h2>
+    <h2><b>Using K-means to Find Centroids</b></h2>
     <p><span></span></p>
     <p><span>K-means is a clustering algorithm which groups datapoints into clusters. In this
         case, we are clustering benign data (normal network requests) into K groups. The centre of each cluster
@@ -66,8 +75,8 @@
     <p><span>To start, we create centroids with random values. Based on this random assignment,
         each data point will be grouped into a cluster based on which centroid each data point is closest to. We
         measure &lsquo;closeness&rsquo; (AKA affinity) with the </span><span><a
-          href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Euclidean_distance&amp;sa=D&amp;source=editors&amp;ust=1704050539563110&amp;usg=AOvVaw2RRp6XwgQTMENoYjnzqcQR">Euclidean
-          distance</a></span><span>.</span></p>
+          href="https://www.google.com/url?q=https://en.wikipedia.org/wiki/Euclidean_distance&amp;sa=D&amp;source=editors&amp;ust=1704050539563110&amp;usg=AOvVaw2RRp6XwgQTMENoYjnzqcQR"><b>
+            Euclidean distance</b></a></span><span>.</span></p>
     <p><span></span></p>
     <div class="init-regular-data-scatter">
       <canvas id="init-regular-data-scatter"></canvas>
@@ -82,10 +91,17 @@
           centroids become more like the data they represent.</span></li>
     </ol>
 
-      <!-- Raw K Means Plot -->
-    <button onclick="runkmeans()" id="btn-rawkmeans">Run K Means</button>
+    <!-- Raw K Means Plot -->
+    <button onclick="runkmeans()" id="btn-rawkmeans">
+      <span>Run Algorithm</span>
+      <div class="top"></div>
+      <div class="left"></div>
+      <div class="bottom"></div>
+      <div class="right"></div>
+    </button>
+
     <p><span></span></p>
-      <p class="accent" style="display: none;" id="txt-train"><span>Training...</span></p>
+    <p class="accent" style="display: none;" id="txt-train"><span>Training...</span></p>
     <p><span></span></p>
     <div class="rawkmeans-regular-data-scatter">
       <canvas id="rawkmeans-regular-data-scatter"></canvas>
@@ -95,7 +111,7 @@
         much. As seen above though, the centroid values are very volatile. This is because the data isn&rsquo;t
         &lsquo;normalized&rsquo;.</span></p>
     <p><span></span></p>
-    <h2>Normalizing the Data to Improve Convergence</h2>
+    <h2><b>Normalizing the Data to Improve Convergence</b></h2>
     <p><span>&lsquo;Normalized&rsquo; data is data where all values have a mean of 0 and a
         standard deviation of one. This makes all values very similar, which helps with computing the averages and
         distances described in the k-means algorithm. </span></p>
@@ -107,16 +123,24 @@
     <p><span></span></p>
     <p><span>To convert the original data into normalized data, we use a formula from Statistics
         101: </span><span><a
-          href="https://www.google.com/url?q=https://visualstudiomagazine.com/articles/2020/08/04/ml-data-prep-normalization.aspx?m%3D1&amp;sa=D&amp;source=editors&amp;ust=1704050539564463&amp;usg=AOvVaw2dIOX0FWzVuATF0fH-fb78">Z-score
-          normalisation</a></span><span>.</span></p>
+          href="https://www.google.com/url?q=https://visualstudiomagazine.com/articles/2020/08/04/ml-data-prep-normalization.aspx?m%3D1&amp;sa=D&amp;source=editors&amp;ust=1704050539564463&amp;usg=AOvVaw2dIOX0FWzVuATF0fH-fb78"><b>Z-score
+            normalisation</b></a></span><span>.</span></p>
     <p><span></span></p>
     <p><span>Here, we see the updated results of the k-means clustering algorithm: </span></p>
     <p><span></span></p>
 
     <!-- Normalized K means plot -->
-    <button onclick="runkmeans_normalized()" id="btn-normkmeans">Run Normalized K-Means</button>
+    <button onclick="runkmeans_normalized()" id="btn-normkmeans">
+      <span>Run Algorithm</span>
+      <div class="top"></div>
+      <div class="left"></div>
+      <div class="bottom"></div>
+      <div class="right"></div>
+    </button>
     <p><span></span></p>
-      <p class="accent" style="display: none;" id="txt-train_norm"><span>Training...</span></p>
+    <p class="accent" style="display: none;" id="txt-train_norm">
+      <span class='Training'>Training...</span>
+    </p>
     <p><span></span></p>
     <div class="normkmeans-regular-data-scatter">
       <canvas id="normkmeans-regular-data-scatter"></canvas>
