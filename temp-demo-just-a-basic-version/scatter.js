@@ -42,7 +42,9 @@ function createScatterPlot(id, raw_datapoints, centroid_values, title) {
                         text: 'Principal Component 1',
                         color: 'white',
                         font: {
-                            weight: 'bold'
+                            weight: 'bold',
+                            size: 20,
+                            align: 'center'
                         }
                     }
                 },
@@ -58,7 +60,9 @@ function createScatterPlot(id, raw_datapoints, centroid_values, title) {
                         text: 'Principal Component 2',
                         color: 'white',
                         font: {
-                            weight: 'bold'
+                            weight: 'bold',
+                            size: 20,
+                            align: 'center'
                         }
                     }
                 }
@@ -74,11 +78,11 @@ function createScatterPlot(id, raw_datapoints, centroid_values, title) {
                 title: {
                     display: true,
                     text: title,
-                    color: 'yellow', 
-                        font: {
-                            weight: 'bold',
-                            size: 20
-                        }
+                    color: 'yellow',
+                    font: {
+                        weight: 'bold',
+                        size: 20
+                    }
                 }
             }
         }
