@@ -42,9 +42,23 @@ span {
     color: var(--body-text-color);
 }
 
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 50%;
+}
+
 /* Positioning */
 .container {
-    margin: 8rem 25vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 70%;
 }
 
 button {

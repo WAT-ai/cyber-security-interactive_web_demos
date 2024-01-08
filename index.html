@@ -57,9 +57,7 @@
         help. Negative selection involves trying to detect patterns about what normal network requests look like. If
         a new network request comes in that&rsquo;s too different from detected patterns, we know it&rsquo;s
         abnormal (from a hacker). </span></p>
-    <p><span></span></p>
-    <p class="accent"><span>[INSERT DIAGRAM OF NEGATIVE SELECTION ALGORITHM]</span></p>
-    <p><span></span></p>
+    <img id="neg-selec-img" src="./media/negative_selection_diagram.png" alt="Negative selection algorithm">
     <p><span>This sounds good in theory, but the hard part is generating those
         &lsquo;patterns.&rsquo; The naive approach that the negative selection algorithm tries is to simply generate
         random numbers until those random numbers resemble statistics about normal network requests in our dataset.
