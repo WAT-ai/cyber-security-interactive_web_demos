@@ -9,6 +9,16 @@ function createScatterPlot(id, raw_datapoints, centroid_values, title) {
         type: 'scatter',
         data: {
             datasets: [
+
+                                {
+                    label: 'Centroids',
+                    data: centroid_values.map(point => ({ x: point[0], y: point[1] })),
+                    backgroundColor: 'white',
+                    pointStyle: 'cross',
+                    pointRadius: 10,
+                    borderColor: 'white',
+                    borderWidth: 1
+                },
                 {
                     label: 'Data Points',
                     data: raw_datapoints.map((point) => ({ x: point[0], y: point[1] })), // label: data_labels[index]
@@ -17,15 +27,7 @@ function createScatterPlot(id, raw_datapoints, centroid_values, title) {
                     pointRadius: 5,
                     borderWidth: 1
                 },
-                {
-                    label: 'Centroids',
-                    data: centroid_values.map(point => ({ x: point[0], y: point[1] })),
-                    backgroundColor: 'black',
-                    pointStyle: 'cross',
-                    pointRadius: 10,
-                    borderColor: 'white',
-                    borderWidth: 1
-                }
+
             ]
         },
         options: {

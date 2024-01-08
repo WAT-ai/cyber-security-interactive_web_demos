@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tensorflow/tfjs": "^4.13.0",
+    "webpack": "^5.89.0"
+  }
+}
